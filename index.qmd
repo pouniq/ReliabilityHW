@@ -7,7 +7,7 @@ editor: visual
 lightbox: true
 ---
 
-روش عددی در مثال ۶.۶
+## روش عددی در مثال ۶.۶
 
 ![](Question.png){group="my-group"}
 
@@ -33,7 +33,7 @@ y
 ```
 
 
-فرمول وایبل نیز به این صورت است:
+فرمول **وایبل** نیز به این صورت است:
 $$
 f(t,\lambda, \beta) = \beta\lambda^{\beta}t^{\beta-1}e^{-(\lambda t)^\beta}
 $$
