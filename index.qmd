@@ -4,11 +4,19 @@ author: "AmirMohammad Abdollahpour"
 format: html
 dir: 'rtl'
 editor: visual
+lightbox: true
 ---
 
 روش عددی در مثال ۶.۶
 
+![](Question.png){group="my-group"}
+
+
 اول از همه ما یک سری داده داریم که در جدول زیر مشخص شده است.
+
+
+![](Table.png){group="my-group"}
+
 
 ```{r}
 #| dir: ltr
@@ -73,7 +81,7 @@ f <- function(params, y){
 #| warning: false
 #| dir: ltr
 initialval <- c(1,1)
-optim(initialval, f,
+output <- optim(initialval, f,
       y = y,
       control = list(fnscale = -1),
       method = "BFGS",

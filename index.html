@@ -73,6 +73,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="index_files/libs/bootstrap/bootstrap-138a6193a3bd40baf1e627da441a4734.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="index_files/libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="index_files/libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="index_files/libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -138,7 +141,9 @@ window.Quarto = {
 
 
 <p>روش عددی در مثال ۶.۶</p>
+<p><a href="Question.png" class="lightbox" data-gallery="my-group"><img src="Question.png" class="img-fluid"></a></p>
 <p>اول از همه ما یک سری داده داریم که در جدول زیر مشخص شده است.</p>
+<p><a href="Table.png" class="lightbox" data-gallery="my-group"><img src="Table.png" class="img-fluid"></a></p>
 <div class="cell" dir="ltr">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), <span class="fu">c</span>(<span class="dv">25</span>,<span class="dv">28</span>,<span class="dv">29</span>,<span class="dv">44</span>,<span class="dv">57</span>,<span class="dv">58</span>,<span class="dv">63</span>,<span class="dv">64</span>,<span class="dv">64</span>, <span class="dv">76</span>,<span class="dv">87</span>,<span class="dv">93</span>,<span class="dv">111</span>,<span class="dv">126</span>,<span class="dv">136</span>,<span class="dv">139</span>,<span class="dv">157</span>,<span class="dv">168</span>,<span class="dv">189</span>,<span class="dv">212</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -180,40 +185,40 @@ l(\lambda , \beta) =  [nln(\beta) + n\beta ln(\lambda) + (\beta - 1) \sum_{i=1}^
 <p>بعد از تعریف تابع باید این تابع را به روش های عددی ماکزیمم کنیم:</p>
 <div class="cell" dir="ltr">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>initialval <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">optim</span>(initialval, f,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">optim</span>(initialval, f,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> y,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">control =</span> <span class="fu">list</span>(<span class="at">fnscale =</span> <span class="sc">-</span><span class="dv">1</span>),</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">method =</span> <span class="st">"BFGS"</span>,</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$par
-[1] 0.009184599 1.878197671
-
-$value
-[1] -106.5273
-
-$counts
-function gradient 
-     118       23 
-
-$convergence
-[1] 0
-
-$message
-NULL
-
-$hessian
-             [,1]       [,2]
-[1,] -848011.5291 -947.21582
-[2,]    -947.2158  -10.22236</code></pre>
 </div>
-</div>
+<p>یا اگر طبق فرمول 6.12 پیش برویم که برابر است با :</p>
+<p><span class="math display">\[
+\lambda = [\frac{1}{n} \sum_{i=1}^{n} t_i^{\beta}]^{-\frac{1}{\beta}}
+\]</span></p>
 <p>اول از همه یک نقطه شروع برای پارامتر ها در نظر می گیریم که در initialvalue آنها را قرار می دهیم که برای هر دو پارامتر 1, 1 در نظر گرفته شد</p>
 <p>تابع optim() را فراخوانی می کنیم و اول از همه مقادیر اولیه را در آن قرار می دهیم.</p>
 <p>بعد از آن تابع f که میخواهیم بهینه سازی کنیم را در تابع قرار می دهیم</p>
 <p>بعد از آن داده هایی که از مسئله داشتیم را درون تابع optim() جایگذاری میکنیم</p>
 <p>تابع optim به صورت default تابعی که داریم را مینیمم می کند با دستوری که قرار دادیم control = list(fnscale = -1) ، تابعی که در optim() قرار می دهیم خروجی ماکزیمم خواهد بود.</p>
 <p>method و hessian هم به روشی که برای بدست آورد جواب نیاز داریم اشاره می کند.</p>
+<p>یا اگر طبق فرمول 6.12 پیش برویم که برابر است با :</p>
+<p><span class="math display">\[
+\lambda = [\frac{1}{n} \sum_{i=1}^{n} t_i^{\beta}]^{-\frac{1}{\beta}}
+\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lm <span class="ot">&lt;-</span> <span class="cf">function</span>(y,betaP){</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  lambda <span class="ot">&lt;-</span> ( (<span class="dv">1</span><span class="sc">/</span>n) <span class="sc">*</span> <span class="fu">sum</span>(y<span class="sc">^</span>betaP) )<span class="sc">^</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span>betaP)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  lambda</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y,output<span class="sc">$</span>par[<span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0091779</code></pre>
+</div>
+</div>
+<p>که با فرمول خود کتاب هم که محاسبه شد عددی نزدیک به عددی که برآورد شد یعنی 0.009184599 به دست آمد که یعنی برآورد ما طبق کتاب نیز درست است.</p>
 <!--
 
 حل به روش عددی مثال 
@@ -657,6 +662,38 @@ censored <- c(1,1,0,0,0,0,0,0,0,0,1,1)
   });
   </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
