@@ -76,6 +76,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="index_files/libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="index_files/libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="index_files/libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script type="module" src="index_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="index_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -140,14 +142,392 @@ window.Quarto = {
 </header>
 
 
-<section id="روش-عددی-در-مثال-۶.۶" class="level2">
-<h2 class="anchored" data-anchor-id="روش-عددی-در-مثال-۶.۶">روش عددی در مثال ۶.۶</h2>
+<section id="روش-عددی-مثال-۶.۱" class="level2">
+<h2 class="anchored" data-anchor-id="روش-عددی-مثال-۶.۱">روش عددی مثال ۶.۱</h2>
+<p>اگر بخواهیم دو پارامتر توزیع وایبول را برآورد کنیم از این فرمول گشتاوری می توانیم استفاده کنیم:</p>
+<p><span class="math display">\[\frac{\gamma(1 + \frac{2}{\beta})}{\gamma^2(1 + \frac{2}{\beta})} = \frac{m_2}{m^2_1}\]</span></p>
+<p>بعد کسر سمت راست را به سمت چپ می بریم:</p>
+<p><span class="math display">\[\frac{\gamma(1 + \frac{2}{\beta})}{\gamma^2(1 + \frac{2}{\beta})} - \frac{m_2}{m^2_1} = 0\]</span></p>
+<p>داده هایی که داریم به این صورت هستند:</p>
+<div class="cell" dir="ltr">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">391</span>,<span class="dv">510</span>,<span class="dv">541</span>,<span class="dv">595</span>,<span class="dv">622</span>,<span class="dv">626</span>,<span class="dv">680</span>,<span class="dv">694</span>,<span class="dv">710</span>,<span class="dv">715</span>,<span class="dv">746</span>,<span class="dv">763</span>,<span class="dv">775</span>,<span class="dv">932</span>,<span class="dv">957</span>,<span class="dv">984</span>,<span class="dv">1003</span>,<span class="dv">1019</span>,<span class="dv">1031</span>,<span class="dv">1083</span>,<span class="dv">1223</span>,<span class="dv">1279</span>,<span class="dv">1285</span>,<span class="dv">1393</span>,<span class="dv">1577</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">cbind</span>(i,t)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>t2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  391  510  541  595  622  626  680  694  710  715  746  763  775  932  957
+[16]  984 1003 1019 1031 1083 1223 1279 1285 1393 1577</code></pre>
+</div>
+</div>
+<p>حالا تابع را در R تعریف می کنیم:</p>
+<div class="cell" dir="ltr">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(t2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(t2<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="cf">function</span>(beta, m1, m2){</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gamma</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="dv">2</span><span class="sc">/</span>beta) <span class="sc">/</span> <span class="fu">gamma</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>beta)<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> m2<span class="sc">/</span>m1<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" dir="ltr">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>op <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(f2,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="dv">40</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">m1 =</span> m1,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">m2 =</span> m2)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> op<span class="sc">$</span>root</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>beta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.298232</code></pre>
+</div>
+</div>
+<p>از تابع uniroot استفاده کردیم تا beta را بدست بیاوریم</p>
+<p>که می شود: <span class="math display">\[\beta = 3.298232\]</span></p>
+<p>حالا</p>
+<p><span class="math display">\[\hat{\lambda}\]</span></p>
+<p>را نیز پیدا می کنیم:</p>
+<div class="cell" dir="ltr">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lambdaHat <span class="ot">&lt;-</span> (<span class="fu">gamma</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>beta)) <span class="sc">/</span> m1</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lambdaHat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.001013137</code></pre>
+</div>
+</div>
+<p>حالا چون</p>
+<p><span class="math display">\[\beta = 3.298232\]</span></p>
+<p><span class="math display">\[\lambda = 0.001013137\]</span></p>
+<p>را پیدا کردیم میتوانیم توزیع این داده ها بدست بیاوریم</p>
+<p>با در نظر گرفتن داده هایی که داریم ، تابع وایبل روی این داده با تغییر پارامتر در زیر قابل مشاهده است:</p>
+<div class="cell" dir="ltr">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb8" data-startfrom="85" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 84;"><span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [<span class="dv">391</span><span class="op">,</span><span class="dv">510</span><span class="op">,</span><span class="dv">541</span><span class="op">,</span><span class="dv">595</span><span class="op">,</span><span class="dv">622</span><span class="op">,</span><span class="dv">626</span><span class="op">,</span><span class="dv">680</span><span class="op">,</span><span class="dv">694</span><span class="op">,</span><span class="dv">710</span><span class="op">,</span><span class="dv">715</span><span class="op">,</span><span class="dv">746</span><span class="op">,</span><span class="dv">763</span><span class="op">,</span><span class="dv">775</span><span class="op">,</span><span class="dv">932</span><span class="op">,</span><span class="dv">957</span><span class="op">,</span><span class="dv">984</span><span class="op">,</span><span class="dv">1003</span><span class="op">,</span><span class="dv">1019</span><span class="op">,</span><span class="dv">1031</span><span class="op">,</span><span class="dv">1083</span><span class="op">,</span><span class="dv">1223</span><span class="op">,</span><span class="dv">1279</span><span class="op">,</span><span class="dv">1285</span><span class="op">,</span><span class="dv">1393</span><span class="op">,</span><span class="dv">1577</span>]</span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a><span class="co">// --- MLE fitting — returns shape k and rate λ = 1/η ---</span></span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">fitWeibullMLE</span>(d) {</span>
+<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> n <span class="op">=</span> d<span class="op">.</span><span class="at">length</span></span>
+<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> k <span class="op">=</span> <span class="fl">1.5</span></span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> iter <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> iter <span class="op">&lt;</span> <span class="dv">300</span><span class="op">;</span> iter<span class="op">++</span>) {</span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> xk      <span class="op">=</span> d<span class="op">.</span><span class="fu">map</span>(x <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(x<span class="op">,</span> k))</span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> lnx     <span class="op">=</span> d<span class="op">.</span><span class="fu">map</span>(x <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(x))</span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> S0      <span class="op">=</span> xk<span class="op">.</span><span class="fu">reduce</span>((a<span class="op">,</span> b) <span class="kw">=&gt;</span> a <span class="op">+</span> b<span class="op">,</span> <span class="dv">0</span>) <span class="op">/</span> n</span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> S1      <span class="op">=</span> d<span class="op">.</span><span class="fu">map</span>((_<span class="op">,</span> i) <span class="kw">=&gt;</span> xk[i] <span class="op">*</span> lnx[i])<span class="op">.</span><span class="fu">reduce</span>((a<span class="op">,</span> b) <span class="kw">=&gt;</span> a <span class="op">+</span> b<span class="op">,</span> <span class="dv">0</span>) <span class="op">/</span> n</span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> S2      <span class="op">=</span> d<span class="op">.</span><span class="fu">map</span>((_<span class="op">,</span> i) <span class="kw">=&gt;</span> xk[i] <span class="op">*</span> lnx[i] <span class="op">*</span> lnx[i])<span class="op">.</span><span class="fu">reduce</span>((a<span class="op">,</span> b) <span class="kw">=&gt;</span> a <span class="op">+</span> b<span class="op">,</span> <span class="dv">0</span>) <span class="op">/</span> n</span>
+<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> meanLnx <span class="op">=</span> lnx<span class="op">.</span><span class="fu">reduce</span>((a<span class="op">,</span> b) <span class="kw">=&gt;</span> a <span class="op">+</span> b<span class="op">,</span> <span class="dv">0</span>) <span class="op">/</span> n</span>
+<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> num     <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> k <span class="op">+</span> meanLnx <span class="op">-</span> S1 <span class="op">/</span> S0</span>
+<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> den     <span class="op">=</span> <span class="op">-</span><span class="dv">1</span> <span class="op">/</span> (k <span class="op">*</span> k) <span class="op">-</span> (S2 <span class="op">*</span> S0 <span class="op">-</span> S1 <span class="op">*</span> S1) <span class="op">/</span> (S0 <span class="op">*</span> S0)</span>
+<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="fl">0.1</span><span class="op">,</span> k <span class="op">-</span> (num <span class="op">/</span> den) <span class="op">*</span> <span class="fl">0.5</span>)</span>
+<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> eta <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(d<span class="op">.</span><span class="fu">map</span>(x <span class="kw">=&gt;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(x<span class="op">,</span> k))<span class="op">.</span><span class="fu">reduce</span>((a<span class="op">,</span> b) <span class="kw">=&gt;</span> a <span class="op">+</span> b<span class="op">,</span> <span class="dv">0</span>) <span class="op">/</span> d<span class="op">.</span><span class="at">length</span><span class="op">,</span> <span class="dv">1</span> <span class="op">/</span> k)</span>
+<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> { <span class="dt">shape</span><span class="op">:</span> k<span class="op">,</span> <span class="dt">rate</span><span class="op">:</span> <span class="dv">1</span> <span class="op">/</span> eta }</span>
+<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a>mleFit <span class="op">=</span> <span class="fu">fitWeibullMLE</span>(data)</span>
+<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-108"><a href="#cb8-108" aria-hidden="true" tabindex="-1"></a><span class="co">// Fixed parameters</span></span>
+<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a>fixedShape <span class="op">=</span> <span class="fl">3.25</span></span>
+<span id="cb8-110"><a href="#cb8-110" aria-hidden="true" tabindex="-1"></a>fixedRate  <span class="op">=</span> <span class="fl">0.001</span>          <span class="co">// λ; scale η = 1/λ = 1000</span></span>
+<span id="cb8-111"><a href="#cb8-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a><span class="co">// --- Gamma function (Lanczos) ---</span></span>
+<span id="cb8-113"><a href="#cb8-113" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">gammaFn</span>(z) {</span>
+<span id="cb8-114"><a href="#cb8-114" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> g <span class="op">=</span> <span class="dv">7</span></span>
+<span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> c <span class="op">=</span> [<span class="fl">0.99999999999980993</span><span class="op">,</span><span class="fl">676.5203681218851</span><span class="op">,-</span><span class="fl">1259.1392167224028</span><span class="op">,</span></span>
+<span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a>             <span class="fl">771.32342877765313</span><span class="op">,-</span><span class="fl">176.61502916214059</span><span class="op">,</span><span class="fl">12.507343278686905</span><span class="op">,</span></span>
+<span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a>             <span class="op">-</span><span class="fl">0.13857109526572012</span><span class="op">,</span><span class="fl">9.9843695780195716e-6</span><span class="op">,</span><span class="fl">1.5056327351493116e-7</span>]</span>
+<span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (z <span class="op">&lt;</span> <span class="fl">0.5</span>) <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">/</span> (<span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span>(<span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> z) <span class="op">*</span> <span class="fu">gammaFn</span>(<span class="dv">1</span> <span class="op">-</span> z))</span>
+<span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a>  z<span class="op">--</span></span>
+<span id="cb8-120"><a href="#cb8-120" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> x <span class="op">=</span> c[<span class="dv">0</span>]</span>
+<span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> g <span class="op">+</span> <span class="dv">2</span><span class="op">;</span> i<span class="op">++</span>) x <span class="op">+=</span> c[i] <span class="op">/</span> (z <span class="op">+</span> i)</span>
+<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> t <span class="op">=</span> z <span class="op">+</span> g <span class="op">+</span> <span class="fl">0.5</span></span>
+<span id="cb8-123"><a href="#cb8-123" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(t<span class="op">,</span> z <span class="op">+</span> <span class="fl">0.5</span>) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span>t) <span class="op">*</span> x</span>
+<span id="cb8-124"><a href="#cb8-124" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-125"><a href="#cb8-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-126"><a href="#cb8-126" aria-hidden="true" tabindex="-1"></a><span class="co">// --- Weibull functions (β, λ) where η = 1/λ ---</span></span>
+<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a>weibullPDF <span class="op">=</span> (x<span class="op">,</span> b<span class="op">,</span> lam) <span class="kw">=&gt;</span> { <span class="kw">const</span> eta <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>lam<span class="op">;</span> <span class="cf">return</span> x<span class="op">&lt;=</span><span class="dv">0</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> (b<span class="op">/</span>eta)<span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(x<span class="op">/</span>eta<span class="op">,</span>b<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span><span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(x<span class="op">/</span>eta<span class="op">,</span>b)) }</span>
+<span id="cb8-128"><a href="#cb8-128" aria-hidden="true" tabindex="-1"></a>weibullCDF <span class="op">=</span> (x<span class="op">,</span> b<span class="op">,</span> lam) <span class="kw">=&gt;</span> { <span class="kw">const</span> eta <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>lam<span class="op">;</span> <span class="cf">return</span> x<span class="op">&lt;=</span><span class="dv">0</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> <span class="dv">1</span><span class="op">-</span><span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(<span class="op">-</span><span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(x<span class="op">/</span>eta<span class="op">,</span>b)) }</span>
+<span id="cb8-129"><a href="#cb8-129" aria-hidden="true" tabindex="-1"></a>weibullHaz <span class="op">=</span> (x<span class="op">,</span> b<span class="op">,</span> lam) <span class="kw">=&gt;</span> { <span class="kw">const</span> eta <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>lam<span class="op">;</span> <span class="cf">return</span> x<span class="op">&lt;=</span><span class="dv">0</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> (b<span class="op">/</span>eta)<span class="op">*</span><span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(x<span class="op">/</span>eta<span class="op">,</span>b<span class="op">-</span><span class="dv">1</span>) }</span>
+<span id="cb8-130"><a href="#cb8-130" aria-hidden="true" tabindex="-1"></a>weibullMean   <span class="op">=</span> (b<span class="op">,</span> lam) <span class="kw">=&gt;</span> (<span class="dv">1</span><span class="op">/</span>lam) <span class="op">*</span> <span class="fu">gammaFn</span>(<span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span>b)</span>
+<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a>weibullMedian <span class="op">=</span> (b<span class="op">,</span> lam) <span class="kw">=&gt;</span> (<span class="dv">1</span><span class="op">/</span>lam) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="bu">Math</span><span class="op">.</span><span class="cn">LN2</span><span class="op">,</span> <span class="dv">1</span><span class="op">/</span>b)</span>
+<span id="cb8-132"><a href="#cb8-132" aria-hidden="true" tabindex="-1"></a>weibullStd    <span class="op">=</span> (b<span class="op">,</span> lam) <span class="kw">=&gt;</span> { <span class="kw">const</span> eta<span class="op">=</span><span class="dv">1</span><span class="op">/</span>lam<span class="op">;</span> <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(eta<span class="op">*</span>eta<span class="op">*</span>(<span class="fu">gammaFn</span>(<span class="dv">1</span><span class="op">+</span><span class="dv">2</span><span class="op">/</span>b)<span class="op">-</span><span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="fu">gammaFn</span>(<span class="dv">1</span><span class="op">+</span><span class="dv">1</span><span class="op">/</span>b)<span class="op">,</span><span class="dv">2</span>))) }</span>
+<span id="cb8-133"><a href="#cb8-133" aria-hidden="true" tabindex="-1"></a>weibullB10    <span class="op">=</span> (b<span class="op">,</span> lam) <span class="kw">=&gt;</span> (<span class="dv">1</span><span class="op">/</span>lam) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="op">-</span><span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(<span class="fl">0.9</span>)<span class="op">,</span> <span class="dv">1</span><span class="op">/</span>b)</span>
+<span id="cb8-134"><a href="#cb8-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-135"><a href="#cb8-135" aria-hidden="true" tabindex="-1"></a><span class="co">//| echo: false</span></span>
+<span id="cb8-136"><a href="#cb8-136" aria-hidden="true" tabindex="-1"></a><span class="co">// Controls</span></span>
+<span id="cb8-137"><a href="#cb8-137" aria-hidden="true" tabindex="-1"></a>viewof shape <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> {</span>
+<span id="cb8-138"><a href="#cb8-138" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> fixedShape<span class="op">,</span></span>
+<span id="cb8-139"><a href="#cb8-139" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.01</span><span class="op">,</span></span>
+<span id="cb8-140"><a href="#cb8-140" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Shape β"</span></span>
+<span id="cb8-141"><a href="#cb8-141" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb8-142"><a href="#cb8-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-143"><a href="#cb8-143" aria-hidden="true" tabindex="-1"></a>viewof rate <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.0002</span><span class="op">,</span> <span class="fl">0.005</span>]<span class="op">,</span> {</span>
+<span id="cb8-144"><a href="#cb8-144" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> fixedRate<span class="op">,</span></span>
+<span id="cb8-145"><a href="#cb8-145" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.00001</span><span class="op">,</span></span>
+<span id="cb8-146"><a href="#cb8-146" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Rate λ"</span></span>
+<span id="cb8-147"><a href="#cb8-147" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb8-148"><a href="#cb8-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-149"><a href="#cb8-149" aria-hidden="true" tabindex="-1"></a>viewof plotType <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">radio</span>([<span class="st">"PDF"</span><span class="op">,</span> <span class="st">"CDF"</span><span class="op">,</span> <span class="st">"Probability plot"</span><span class="op">,</span> <span class="st">"Hazard rate"</span>]<span class="op">,</span> {</span>
+<span id="cb8-150"><a href="#cb8-150" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="st">"PDF"</span><span class="op">,</span></span>
+<span id="cb8-151"><a href="#cb8-151" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Chart"</span></span>
+<span id="cb8-152"><a href="#cb8-152" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb8-153"><a href="#cb8-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-154"><a href="#cb8-154" aria-hidden="true" tabindex="-1"></a><span class="fu">html</span><span class="vs">`&lt;p style="font-size:13px;color:#666;margin:2px 0 12px"&gt;</span></span>
+<span id="cb8-155"><a href="#cb8-155" aria-hidden="true" tabindex="-1"></a><span class="vs">  Scale η = 1/λ = &lt;strong&gt;</span><span class="sc">${</span>(<span class="dv">1</span><span class="op">/</span>rate)<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="sc">}</span><span class="vs">&lt;/strong&gt;</span></span>
+<span id="cb8-156"><a href="#cb8-156" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;/p&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-6" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-7" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-8" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-9" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-10" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-11" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-12" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-13" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-14" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-15" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-16" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-17" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb9" data-startfrom="159" data-source-offset="-2796"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 158;"><span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> sorted <span class="op">=</span> [<span class="op">...</span>data]<span class="op">.</span><span class="fu">sort</span>((a<span class="op">,</span> b) <span class="kw">=&gt;</span> a <span class="op">-</span> b)</span>
+<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> n <span class="op">=</span> sorted<span class="op">.</span><span class="at">length</span></span>
+<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> eta <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> rate</span>
+<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> xmin <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(<span class="op">...</span>data) <span class="op">*</span> <span class="fl">0.85</span></span>
+<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> xmax <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="op">...</span>data) <span class="op">*</span> <span class="fl">1.1</span></span>
+<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> pts <span class="op">=</span> <span class="dv">300</span></span>
+<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> xs <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({ <span class="dt">length</span><span class="op">:</span> pts }<span class="op">,</span> (_<span class="op">,</span> i) <span class="kw">=&gt;</span> xmin <span class="op">+</span> (xmax <span class="op">-</span> xmin) <span class="op">*</span> i <span class="op">/</span> (pts <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (plotType <span class="op">===</span> <span class="st">"PDF"</span>) {</span>
+<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> bins <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> w <span class="op">=</span> (xmax <span class="op">-</span> xmin) <span class="op">/</span> bins</span>
+<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> counts <span class="op">=</span> <span class="bu">Array</span>(bins)<span class="op">.</span><span class="fu">fill</span>(<span class="dv">0</span>)</span>
+<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a>    sorted<span class="op">.</span><span class="fu">forEach</span>(v <span class="kw">=&gt;</span> {</span>
+<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> b <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>((v <span class="op">-</span> xmin) <span class="op">/</span> w)</span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (b <span class="op">&gt;=</span> bins) b <span class="op">=</span> bins <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (b <span class="op">&gt;=</span> <span class="dv">0</span>) counts[b]<span class="op">++</span></span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> histData <span class="op">=</span> counts<span class="op">.</span><span class="fu">map</span>((c<span class="op">,</span> i) <span class="kw">=&gt;</span> ({</span>
+<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x0</span><span class="op">:</span> xmin <span class="op">+</span> i <span class="op">*</span> w<span class="op">,</span></span>
+<span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x1</span><span class="op">:</span> xmin <span class="op">+</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> w<span class="op">,</span></span>
+<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a>      <span class="dt">density</span><span class="op">:</span> c <span class="op">/</span> (n <span class="op">*</span> w)</span>
+<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a>    }))</span>
+<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> lineData <span class="op">=</span> xs<span class="op">.</span><span class="fu">map</span>(x <span class="kw">=&gt;</span> ({ x<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fu">weibullPDF</span>(x<span class="op">,</span> shape<span class="op">,</span> rate) }))</span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a>      <span class="dt">width</span><span class="op">:</span> <span class="dv">680</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
+<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="st">"Time"</span> }<span class="op">,</span></span>
+<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a>      <span class="dt">y</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="st">"Density"</span> }<span class="op">,</span></span>
+<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a>      <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a>        Plot<span class="op">.</span><span class="fu">rectY</span>(histData<span class="op">,</span> { <span class="dt">x1</span><span class="op">:</span> <span class="st">"x0"</span><span class="op">,</span> <span class="dt">x2</span><span class="op">:</span> <span class="st">"x1"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"density"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#378ADD"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.25</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#378ADD"</span><span class="op">,</span> <span class="dt">strokeOpacity</span><span class="op">:</span> <span class="fl">0.5</span> })<span class="op">,</span></span>
+<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a>        Plot<span class="op">.</span><span class="fu">line</span>(lineData<span class="op">,</span> { <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#378ADD"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span> })<span class="op">,</span></span>
+<span id="cb9-190"><a href="#cb9-190" aria-hidden="true" tabindex="-1"></a>        Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb9-191"><a href="#cb9-191" aria-hidden="true" tabindex="-1"></a>      ]</span>
+<span id="cb9-192"><a href="#cb9-192" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-195"><a href="#cb9-195" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (plotType <span class="op">===</span> <span class="st">"CDF"</span>) {</span>
+<span id="cb9-196"><a href="#cb9-196" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> empData <span class="op">=</span> sorted<span class="op">.</span><span class="fu">map</span>((x<span class="op">,</span> i) <span class="kw">=&gt;</span> ({ x<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> (i <span class="op">+</span> <span class="fl">0.3</span>) <span class="op">/</span> (n <span class="op">+</span> <span class="fl">0.4</span>) }))</span>
+<span id="cb9-197"><a href="#cb9-197" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> lineData <span class="op">=</span> xs<span class="op">.</span><span class="fu">map</span>(x <span class="kw">=&gt;</span> ({ x<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fu">weibullCDF</span>(x<span class="op">,</span> shape<span class="op">,</span> rate) }))</span>
+<span id="cb9-198"><a href="#cb9-198" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb9-199"><a href="#cb9-199" aria-hidden="true" tabindex="-1"></a>      <span class="dt">width</span><span class="op">:</span> <span class="dv">680</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
+<span id="cb9-200"><a href="#cb9-200" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="st">"Time"</span> }<span class="op">,</span></span>
+<span id="cb9-201"><a href="#cb9-201" aria-hidden="true" tabindex="-1"></a>      <span class="dt">y</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="st">"F(t)"</span><span class="op">,</span> <span class="dt">domain</span><span class="op">:</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>] }<span class="op">,</span></span>
+<span id="cb9-202"><a href="#cb9-202" aria-hidden="true" tabindex="-1"></a>      <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb9-203"><a href="#cb9-203" aria-hidden="true" tabindex="-1"></a>        Plot<span class="op">.</span><span class="fu">line</span>(lineData<span class="op">,</span> { <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#378ADD"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span> })<span class="op">,</span></span>
+<span id="cb9-204"><a href="#cb9-204" aria-hidden="true" tabindex="-1"></a>        Plot<span class="op">.</span><span class="fu">dot</span>(empData<span class="op">,</span> { <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#378ADD"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">5</span> })<span class="op">,</span></span>
+<span id="cb9-205"><a href="#cb9-205" aria-hidden="true" tabindex="-1"></a>        Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb9-206"><a href="#cb9-206" aria-hidden="true" tabindex="-1"></a>      ]</span>
+<span id="cb9-207"><a href="#cb9-207" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb9-208"><a href="#cb9-208" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-209"><a href="#cb9-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-210"><a href="#cb9-210" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (plotType <span class="op">===</span> <span class="st">"Probability plot"</span>) {</span>
+<span id="cb9-211"><a href="#cb9-211" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> empY <span class="op">=</span> sorted<span class="op">.</span><span class="fu">map</span>((_<span class="op">,</span> i) <span class="kw">=&gt;</span> (i <span class="op">+</span> <span class="fl">0.3</span>) <span class="op">/</span> (n <span class="op">+</span> <span class="fl">0.4</span>))</span>
+<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> pointData <span class="op">=</span> sorted<span class="op">.</span><span class="fu">map</span>((x<span class="op">,</span> i) <span class="kw">=&gt;</span> ({</span>
+<span id="cb9-213"><a href="#cb9-213" aria-hidden="true" tabindex="-1"></a>      <span class="dt">lnx</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(x)<span class="op">,</span></span>
+<span id="cb9-214"><a href="#cb9-214" aria-hidden="true" tabindex="-1"></a>      <span class="dt">lnln</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(<span class="op">-</span><span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(<span class="dv">1</span> <span class="op">-</span> empY[i]))</span>
+<span id="cb9-215"><a href="#cb9-215" aria-hidden="true" tabindex="-1"></a>    }))</span>
+<span id="cb9-216"><a href="#cb9-216" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> fitXs <span class="op">=</span> xs<span class="op">.</span><span class="fu">filter</span>(x <span class="kw">=&gt;</span> x <span class="op">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb9-217"><a href="#cb9-217" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> lineData <span class="op">=</span> fitXs<span class="op">.</span><span class="fu">map</span>(x <span class="kw">=&gt;</span> ({</span>
+<span id="cb9-218"><a href="#cb9-218" aria-hidden="true" tabindex="-1"></a>      <span class="dt">lnx</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(x)<span class="op">,</span></span>
+<span id="cb9-219"><a href="#cb9-219" aria-hidden="true" tabindex="-1"></a>      <span class="dt">lnln</span><span class="op">:</span> shape <span class="op">*</span> (<span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(x) <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(eta))</span>
+<span id="cb9-220"><a href="#cb9-220" aria-hidden="true" tabindex="-1"></a>    }))</span>
+<span id="cb9-221"><a href="#cb9-221" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb9-222"><a href="#cb9-222" aria-hidden="true" tabindex="-1"></a>      <span class="dt">width</span><span class="op">:</span> <span class="dv">680</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
+<span id="cb9-223"><a href="#cb9-223" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="st">"ln(t)"</span> }<span class="op">,</span></span>
+<span id="cb9-224"><a href="#cb9-224" aria-hidden="true" tabindex="-1"></a>      <span class="dt">y</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="st">"ln(−ln(1−F))"</span> }<span class="op">,</span></span>
+<span id="cb9-225"><a href="#cb9-225" aria-hidden="true" tabindex="-1"></a>      <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb9-226"><a href="#cb9-226" aria-hidden="true" tabindex="-1"></a>        Plot<span class="op">.</span><span class="fu">line</span>(lineData<span class="op">,</span> { <span class="dt">x</span><span class="op">:</span> <span class="st">"lnx"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"lnln"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#378ADD"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span> })<span class="op">,</span></span>
+<span id="cb9-227"><a href="#cb9-227" aria-hidden="true" tabindex="-1"></a>        Plot<span class="op">.</span><span class="fu">dot</span>(pointData<span class="op">,</span> { <span class="dt">x</span><span class="op">:</span> <span class="st">"lnx"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"lnln"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"#378ADD"</span><span class="op">,</span> <span class="dt">fillOpacity</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">r</span><span class="op">:</span> <span class="dv">5</span> })</span>
+<span id="cb9-228"><a href="#cb9-228" aria-hidden="true" tabindex="-1"></a>      ]</span>
+<span id="cb9-229"><a href="#cb9-229" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb9-230"><a href="#cb9-230" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-231"><a href="#cb9-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-232"><a href="#cb9-232" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (plotType <span class="op">===</span> <span class="st">"Hazard rate"</span>) {</span>
+<span id="cb9-233"><a href="#cb9-233" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> lineData <span class="op">=</span> xs<span class="op">.</span><span class="fu">map</span>(x <span class="kw">=&gt;</span> ({ x<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fu">weibullHaz</span>(x<span class="op">,</span> shape<span class="op">,</span> rate) }))</span>
+<span id="cb9-234"><a href="#cb9-234" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb9-235"><a href="#cb9-235" aria-hidden="true" tabindex="-1"></a>      <span class="dt">width</span><span class="op">:</span> <span class="dv">680</span><span class="op">,</span> <span class="dt">height</span><span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
+<span id="cb9-236"><a href="#cb9-236" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="st">"Time"</span> }<span class="op">,</span></span>
+<span id="cb9-237"><a href="#cb9-237" aria-hidden="true" tabindex="-1"></a>      <span class="dt">y</span><span class="op">:</span> { <span class="dt">label</span><span class="op">:</span> <span class="st">"h(t)"</span> }<span class="op">,</span></span>
+<span id="cb9-238"><a href="#cb9-238" aria-hidden="true" tabindex="-1"></a>      <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb9-239"><a href="#cb9-239" aria-hidden="true" tabindex="-1"></a>        Plot<span class="op">.</span><span class="fu">line</span>(lineData<span class="op">,</span> { <span class="dt">x</span><span class="op">:</span> <span class="st">"x"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"y"</span><span class="op">,</span> <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#D85A30"</span><span class="op">,</span> <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span> })<span class="op">,</span></span>
+<span id="cb9-240"><a href="#cb9-240" aria-hidden="true" tabindex="-1"></a>        Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
+<span id="cb9-241"><a href="#cb9-241" aria-hidden="true" tabindex="-1"></a>      ]</span>
+<span id="cb9-242"><a href="#cb9-242" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb9-243"><a href="#cb9-243" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-244"><a href="#cb9-244" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-18" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb10" data-startfrom="247" data-source-offset="-5586"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 246;"><span id="cb10-247"><a href="#cb10-247" aria-hidden="true" tabindex="-1"></a><span class="fu">html</span><span class="vs">`&lt;details style="margin-top:16px;font-size:13px;color:#555"&gt;</span></span>
+<span id="cb10-248"><a href="#cb10-248" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;summary style="cursor:pointer;font-weight:500"&gt;Parameter reference&lt;/summary&gt;</span></span>
+<span id="cb10-249"><a href="#cb10-249" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;table style="margin-top:8px;border-collapse:collapse;width:100%;font-size:13px"&gt;</span></span>
+<span id="cb10-250"><a href="#cb10-250" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;tr style="border-bottom:1px solid #ddd"&gt;</span></span>
+<span id="cb10-251"><a href="#cb10-251" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;th style="text-align:left;padding:4px 8px"&gt;&lt;/th&gt;</span></span>
+<span id="cb10-252"><a href="#cb10-252" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;th style="padding:4px 8px"&gt;β (shape)&lt;/th&gt;</span></span>
+<span id="cb10-253"><a href="#cb10-253" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;th style="padding:4px 8px"&gt;λ (rate)&lt;/th&gt;</span></span>
+<span id="cb10-254"><a href="#cb10-254" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;/tr&gt;</span></span>
+<span id="cb10-255"><a href="#cb10-255" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;tr&gt;</span></span>
+<span id="cb10-256"><a href="#cb10-256" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td style="padding:4px 8px;color:#666"&gt;Fixed&lt;/td&gt;</span></span>
+<span id="cb10-257"><a href="#cb10-257" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td style="padding:4px 8px;text-align:center"&gt;&lt;strong&gt;</span><span class="sc">${</span>fixedShape<span class="sc">}</span><span class="vs">&lt;/strong&gt;&lt;/td&gt;</span></span>
+<span id="cb10-258"><a href="#cb10-258" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td style="padding:4px 8px;text-align:center"&gt;&lt;strong&gt;</span><span class="sc">${</span>fixedRate<span class="sc">}</span><span class="vs">&lt;/strong&gt;&lt;/td&gt;</span></span>
+<span id="cb10-259"><a href="#cb10-259" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;/tr&gt;</span></span>
+<span id="cb10-260"><a href="#cb10-260" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;tr style="background:#f9f9f9"&gt;</span></span>
+<span id="cb10-261"><a href="#cb10-261" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td style="padding:4px 8px;color:#666"&gt;MLE fit&lt;/td&gt;</span></span>
+<span id="cb10-262"><a href="#cb10-262" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td style="padding:4px 8px;text-align:center"&gt;</span><span class="sc">${</span>mleFit<span class="op">.</span><span class="at">shape</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">&lt;/td&gt;</span></span>
+<span id="cb10-263"><a href="#cb10-263" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td style="padding:4px 8px;text-align:center"&gt;</span><span class="sc">${</span>mleFit<span class="op">.</span><span class="at">rate</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">6</span>)<span class="sc">}</span><span class="vs">&lt;/td&gt;</span></span>
+<span id="cb10-264"><a href="#cb10-264" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;/tr&gt;</span></span>
+<span id="cb10-265"><a href="#cb10-265" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;tr&gt;</span></span>
+<span id="cb10-266"><a href="#cb10-266" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td style="padding:4px 8px;color:#666"&gt;Current&lt;/td&gt;</span></span>
+<span id="cb10-267"><a href="#cb10-267" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td style="padding:4px 8px;text-align:center"&gt;</span><span class="sc">${</span>shape<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">&lt;/td&gt;</span></span>
+<span id="cb10-268"><a href="#cb10-268" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;td style="padding:4px 8px;text-align:center"&gt;</span><span class="sc">${</span>rate<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">6</span>)<span class="sc">}</span><span class="vs">&lt;/td&gt;</span></span>
+<span id="cb10-269"><a href="#cb10-269" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;/tr&gt;</span></span>
+<span id="cb10-270"><a href="#cb10-270" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;/table&gt;</span></span>
+<span id="cb10-271"><a href="#cb10-271" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;p style="margin:8px 0 0"&gt;</span></span>
+<span id="cb10-272"><a href="#cb10-272" aria-hidden="true" tabindex="-1"></a><span class="vs">    </span><span class="sc">${</span>shape <span class="op">&gt;</span> <span class="dv">1</span> <span class="op">?</span> <span class="st">"β &gt; 1 → increasing failure rate (wear-out)"</span> <span class="op">:</span></span>
+<span id="cb10-273"><a href="#cb10-273" aria-hidden="true" tabindex="-1"></a>      shape <span class="op">&lt;</span> <span class="dv">1</span> <span class="op">?</span> <span class="st">"β &lt; 1 → decreasing failure rate (infant mortality)"</span> <span class="op">:</span></span>
+<span id="cb10-274"><a href="#cb10-274" aria-hidden="true" tabindex="-1"></a>      <span class="st">"β ≈ 1 → constant failure rate (random failures)"</span><span class="sc">}</span></span>
+<span id="cb10-275"><a href="#cb10-275" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;/p&gt;</span></span>
+<span id="cb10-276"><a href="#cb10-276" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;/details&gt;`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-19" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="حل-روش-عددی-مثال" class="level2">
+<h2 class="anchored" data-anchor-id="حل-روش-عددی-مثال">۶.۶ حل روش عددی مثال</h2>
 <p><a href="Question.png" class="lightbox" data-gallery="my-group"><img src="Question.png" class="img-fluid"></a></p>
 <p>اول از همه ما یک سری داده داریم که در جدول زیر مشخص شده است.</p>
 <p><a href="Table.png" class="lightbox" data-gallery="my-group"><img src="Table.png" class="img-fluid"></a></p>
 <div class="cell" dir="ltr">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), <span class="fu">c</span>(<span class="dv">25</span>,<span class="dv">28</span>,<span class="dv">29</span>,<span class="dv">44</span>,<span class="dv">57</span>,<span class="dv">58</span>,<span class="dv">63</span>,<span class="dv">64</span>,<span class="dv">64</span>, <span class="dv">76</span>,<span class="dv">87</span>,<span class="dv">93</span>,<span class="dv">111</span>,<span class="dv">126</span>,<span class="dv">136</span>,<span class="dv">139</span>,<span class="dv">157</span>,<span class="dv">168</span>,<span class="dv">189</span>,<span class="dv">212</span>))</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), <span class="fu">c</span>(<span class="dv">25</span>,<span class="dv">28</span>,<span class="dv">29</span>,<span class="dv">44</span>,<span class="dv">57</span>,<span class="dv">58</span>,<span class="dv">63</span>,<span class="dv">64</span>,<span class="dv">64</span>, <span class="dv">76</span>,<span class="dv">87</span>,<span class="dv">93</span>,<span class="dv">111</span>,<span class="dv">126</span>,<span class="dv">136</span>,<span class="dv">139</span>,<span class="dv">157</span>,<span class="dv">168</span>,<span class="dv">189</span>,<span class="dv">212</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      [,1] [,2]
  [1,]    1   25
@@ -173,49 +553,43 @@ window.Quarto = {
 </div>
 </div>
 <div class="cell" dir="ltr">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> data[,<span class="dv">2</span>]</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> data[,<span class="dv">2</span>]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]  25  28  29  44  57  58  63  64  64  76  87  93 111 126 136 139 157 168 189
 [20] 212</code></pre>
 </div>
 </div>
-<p>فرمول <strong>وایبل</strong> نیز به این صورت است: <span class="math display">\[
-f(t,\lambda, \beta) = \beta\lambda^{\beta}t^{\beta-1}e^{-(\lambda t)^\beta}
-\]</span></p>
+<p>فرمول <strong>وایبل</strong> نیز به این صورت است: <span class="math display">\[f(t,\lambda, \beta) = \beta\lambda^{\beta}t^{\beta-1}e^{-(\lambda t)^\beta}\]</span></p>
 <p>که likelihood آن هم به این شکل می شود</p>
-<p><span class="math display">\[
-l(\lambda , \beta) = \sum_{i=1}^{n} [ln(\beta) + \beta ln(\lambda) + (\beta - 1) ln(t_i) - (\lambda t_i)^\beta]
-\]</span></p>
-<p>که حالا اگر sum را روی آنها تاثیر بدهیم به این شکل می شود <span class="math display">\[
-l(\lambda , \beta) =  [nln(\beta) + n\beta ln(\lambda) + (\beta - 1) \sum_{i=1}^{n} ln(t_i) - \sum_{i=1}^{n}(\lambda t_i)^\beta]
-\]</span></p>
+<p><span class="math display">\[l(\lambda , \beta) = \sum_{i=1}^{n} [ln(\beta) + \beta ln(\lambda) + (\beta - 1) ln(t_i) - (\lambda t_i)^\beta]\]</span></p>
+<p>که حالا اگر sum را روی آنها تاثیر بدهیم به این شکل می شود <span class="math display">\[l(\lambda , \beta) =  [nln(\beta) + n\beta ln(\lambda) + (\beta - 1) \sum_{i=1}^{n} ln(t_i) - \sum_{i=1}^{n}(\lambda t_i)^\beta]\]</span></p>
 <p>در کتاب آورده شده است که میتوان مستقیما این فرمول را ماکزیمم کرد یا از مشتق آن به صورت تکرار اعداد را بدست آورد.</p>
 <p>ما به صورت مستقیم از تابع likelihood استفاده میکنیم به این شکل که :</p>
 <p>تابعی که میخواهیم آن را ماکزیمم کنیم را در R می نویسیم</p>
 <p>تابع را در دستور optim() قرار می دهیم</p>
 <p>تابع بالا در R به صورت زیر قابل تعریف شدن است:</p>
 <div class="cell" dir="ltr">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(params, y){</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  lambda <span class="ot">&lt;-</span> params[<span class="dv">1</span>]</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  beta <span class="ot">&lt;-</span> params[<span class="dv">2</span>]</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  n<span class="sc">*</span><span class="fu">log</span>(beta) <span class="sc">+</span> n<span class="sc">*</span>beta<span class="sc">*</span><span class="fu">log</span>(lambda) <span class="sc">+</span> (beta <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">*</span><span class="fu">sum</span>(<span class="fu">log</span>(y)) <span class="sc">-</span> </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>((lambda <span class="sc">*</span> y)<span class="sc">^</span>beta)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(params, y){</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  lambda <span class="ot">&lt;-</span> params[<span class="dv">1</span>]</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  beta <span class="ot">&lt;-</span> params[<span class="dv">2</span>]</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  n<span class="sc">*</span><span class="fu">log</span>(beta) <span class="sc">+</span> n<span class="sc">*</span>beta<span class="sc">*</span><span class="fu">log</span>(lambda) <span class="sc">+</span> (beta <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">*</span><span class="fu">sum</span>(<span class="fu">log</span>(y)) <span class="sc">-</span> </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>((lambda <span class="sc">*</span> y)<span class="sc">^</span>beta)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>بعد از تعریف تابع باید این تابع را به روش های عددی ماکزیمم کنیم:</p>
 <div class="cell" dir="ltr">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>initialval <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">optim</span>(initialval, f,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> y,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">control =</span> <span class="fu">list</span>(<span class="at">fnscale =</span> <span class="sc">-</span><span class="dv">1</span>),</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">method =</span> <span class="st">"BFGS"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>output</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>initialval <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">optim</span>(initialval, f,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> y,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">control =</span> <span class="fu">list</span>(<span class="at">fnscale =</span> <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">method =</span> <span class="st">"BFGS"</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>output</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$par
 [1] 0.009184599 1.878197671
@@ -246,66 +620,37 @@ $hessian
 <p>تابع optim به صورت default تابعی که داریم را مینیمم می کند با دستوری که قرار دادیم control = list(fnscale = -1) ، تابعی که در optim() قرار می دهیم خروجی ماکزیمم خواهد بود.</p>
 <p>method و hessian هم به روشی که برای بدست آورد جواب نیاز داریم اشاره می کند.</p>
 <p>یا اگر طبق فرمول 6.12 پیش برویم که برابر است با :</p>
-<p><span class="math display">\[
-\lambda = [\frac{1}{n} \sum_{i=1}^{n} t_i^{\beta}]^{-\frac{1}{\beta}}
-\]</span></p>
+<p><span class="math display">\[\lambda = [\frac{1}{n} \sum_{i=1}^{n} t_i^{\beta}]^{-\frac{1}{\beta}}\]</span></p>
 <div class="cell" dir="ltr">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>lm <span class="ot">&lt;-</span> <span class="cf">function</span>(y,betaP){</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  lambda <span class="ot">&lt;-</span> ( (<span class="dv">1</span><span class="sc">/</span>n) <span class="sc">*</span> <span class="fu">sum</span>(y<span class="sc">^</span>betaP) )<span class="sc">^</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span>betaP)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  lambda</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>lm <span class="ot">&lt;-</span> <span class="cf">function</span>(y,betaP){</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  lambda <span class="ot">&lt;-</span> ( (<span class="dv">1</span><span class="sc">/</span>n) <span class="sc">*</span> <span class="fu">sum</span>(y<span class="sc">^</span>betaP) )<span class="sc">^</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span>betaP)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  lambda</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell" dir="ltr">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y,output<span class="sc">$</span>par[<span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y,output<span class="sc">$</span>par[<span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.0091779</code></pre>
 </div>
 </div>
 <p>که با فرمول خود کتاب هم که محاسبه شد عددی نزدیک به عددی که برآورد شد یعنی 0.009184599 به دست آمد که یعنی برآورد ما طبق کتاب نیز درست است.</p>
-<!--
-
-حل به روش عددی مثال 
-
-۶.۸
-
- 
-
-جدول مربوطه: 
-
-تابع likelihood برای زمانی که سانسور به صورت بازه ای است به اینصورت خواهد بود:$$
-l(\lambda, \beta) = \sum_{i=1}^{k}r_iln[e^{-(\lambda t_{i-1}^{\beta} - e^{-(\lambda t_i)^\beta})}] - \sum_{i=1}^{k} m_i (\lambda t_i)^\beta
-$$
-
-{r}
-#| dir: ltr
-f <- function(params, y){
-  
-  lambda <- params[1]
-  beta <- params[2]
-  n <- length(y)
-  
-  q <- exp(-(lambda * t[-length(t)])^beta) -
-    exp(-(lambda * t[-1])^beta)
-  
-  sum(r * log(q)) - sum(m * (lambda*t[-1])^beta)
-  
-}
-
-{r}
-t0 <- c(2.4,3.2,3.8,4.2,5.0,5.0, 6.2,7.6,8.4,8.4,8.8,8.8)
-t1 <- c(2.6,3.4,4,4.4,5.2,5.2,6.4,7.8,8.6,8.6,Inf,Inf)
-
-
-failed <- c(0,0,1,1,1,1,1,1,1,1,0,0)
-censored <- c(1,1,0,0,0,0,0,0,0,0,1,1)
-
-
--->
+<p>د</p>
 </section>
 
 </main>
 <!-- /main column -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImRhdGEgPSBbMzkxLDUxMCw1NDEsNTk1LDYyMiw2MjYsNjgwLDY5NCw3MTAsNzE1LDc0Niw3NjMsNzc1LDkzMiw5NTcsOTg0LDEwMDMsMTAxOSwxMDMxLDEwODMsMTIyMywxMjc5LDEyODUsMTM5MywxNTc3XVxuXG4vLyAtLS0gTUxFIGZpdHRpbmcg4oCUIHJldHVybnMgc2hhcGUgayBhbmQgcmF0ZSDOuyA9IDEvzrcgLS0tXG5mdW5jdGlvbiBmaXRXZWlidWxsTUxFKGQpIHtcbiAgY29uc3QgbiA9IGQubGVuZ3RoXG4gIGxldCBrID0gMS41XG4gIGZvciAobGV0IGl0ZXIgPSAwOyBpdGVyIDwgMzAwOyBpdGVyKyspIHtcbiAgICBjb25zdCB4ayAgICAgID0gZC5tYXAoeCA9PiBNYXRoLnBvdyh4LCBrKSlcbiAgICBjb25zdCBsbnggICAgID0gZC5tYXAoeCA9PiBNYXRoLmxvZyh4KSlcbiAgICBjb25zdCBTMCAgICAgID0geGsucmVkdWNlKChhLCBiKSA9PiBhICsgYiwgMCkgLyBuXG4gICAgY29uc3QgUzEgICAgICA9IGQubWFwKChfLCBpKSA9PiB4a1tpXSAqIGxueFtpXSkucmVkdWNlKChhLCBiKSA9PiBhICsgYiwgMCkgLyBuXG4gICAgY29uc3QgUzIgICAgICA9IGQubWFwKChfLCBpKSA9PiB4a1tpXSAqIGxueFtpXSAqIGxueFtpXSkucmVkdWNlKChhLCBiKSA9PiBhICsgYiwgMCkgLyBuXG4gICAgY29uc3QgbWVhbkxueCA9IGxueC5yZWR1Y2UoKGEsIGIpID0+IGEgKyBiLCAwKSAvIG5cbiAgICBjb25zdCBudW0gICAgID0gMSAvIGsgKyBtZWFuTG54IC0gUzEgLyBTMFxuICAgIGNvbnN0IGRlbiAgICAgPSAtMSAvIChrICogaykgLSAoUzIgKiBTMCAtIFMxICogUzEpIC8gKFMwICogUzApXG4gICAgayA9IE1hdGgubWF4KDAuMSwgayAtIChudW0gLyBkZW4pICogMC41KVxuICB9XG4gIGNvbnN0IGV0YSA9IE1hdGgucG93KGQubWFwKHggPT4gTWF0aC5wb3coeCwgaykpLnJlZHVjZSgoYSwgYikgPT4gYSArIGIsIDApIC8gZC5sZW5ndGgsIDEgLyBrKVxuICByZXR1cm4geyBzaGFwZTogaywgcmF0ZTogMSAvIGV0YSB9XG59XG5cbm1sZUZpdCA9IGZpdFdlaWJ1bGxNTEUoZGF0YSlcblxuLy8gRml4ZWQgcGFyYW1ldGVyc1xuZml4ZWRTaGFwZSA9IDMuMjVcbmZpeGVkUmF0ZSAgPSAwLjAwMSAgICAgICAgICAvLyDOuzsgc2NhbGUgzrcgPSAxL867ID0gMTAwMFxuXG4vLyAtLS0gR2FtbWEgZnVuY3Rpb24gKExhbmN6b3MpIC0tLVxuZnVuY3Rpb24gZ2FtbWFGbih6KSB7XG4gIGNvbnN0IGcgPSA3XG4gIGNvbnN0IGMgPSBbMC45OTk5OTk5OTk5OTk4MDk5Myw2NzYuNTIwMzY4MTIxODg1MSwtMTI1OS4xMzkyMTY3MjI0MDI4LFxuICAgICAgICAgICAgIDc3MS4zMjM0Mjg3Nzc2NTMxMywtMTc2LjYxNTAyOTE2MjE0MDU5LDEyLjUwNzM0MzI3ODY4NjkwNSxcbiAgICAgICAgICAgICAtMC4xMzg1NzEwOTUyNjU3MjAxMiw5Ljk4NDM2OTU3ODAxOTU3MTZlLTYsMS41MDU2MzI3MzUxNDkzMTE2ZS03XVxuICBpZiAoeiA8IDAuNSkgcmV0dXJuIE1hdGguUEkgLyAoTWF0aC5zaW4oTWF0aC5QSSAqIHopICogZ2FtbWFGbigxIC0geikpXG4gIHotLVxuICBsZXQgeCA9IGNbMF1cbiAgZm9yIChsZXQgaSA9IDE7IGkgPCBnICsgMjsgaSsrKSB4ICs9IGNbaV0gLyAoeiArIGkpXG4gIGNvbnN0IHQgPSB6ICsgZyArIDAuNVxuICByZXR1cm4gTWF0aC5zcXJ0KDIgKiBNYXRoLlBJKSAqIE1hdGgucG93KHQsIHogKyAwLjUpICogTWF0aC5leHAoLXQpICogeFxufVxuXG4vLyAtLS0gV2VpYnVsbCBmdW5jdGlvbnMgKM6yLCDOuykgd2hlcmUgzrcgPSAxL867IC0tLVxud2VpYnVsbFBERiA9ICh4LCBiLCBsYW0pID0+IHsgY29uc3QgZXRhID0gMS9sYW07IHJldHVybiB4PD0wID8gMCA6IChiL2V0YSkqTWF0aC5wb3coeC9ldGEsYi0xKSpNYXRoLmV4cCgtTWF0aC5wb3coeC9ldGEsYikpIH1cbndlaWJ1bGxDREYgPSAoeCwgYiwgbGFtKSA9PiB7IGNvbnN0IGV0YSA9IDEvbGFtOyByZXR1cm4geDw9MCA/IDAgOiAxLU1hdGguZXhwKC1NYXRoLnBvdyh4L2V0YSxiKSkgfVxud2VpYnVsbEhheiA9ICh4LCBiLCBsYW0pID0+IHsgY29uc3QgZXRhID0gMS9sYW07IHJldHVybiB4PD0wID8gMCA6IChiL2V0YSkqTWF0aC5wb3coeC9ldGEsYi0xKSB9XG53ZWlidWxsTWVhbiAgID0gKGIsIGxhbSkgPT4gKDEvbGFtKSAqIGdhbW1hRm4oMSArIDEvYilcbndlaWJ1bGxNZWRpYW4gPSAoYiwgbGFtKSA9PiAoMS9sYW0pICogTWF0aC5wb3coTWF0aC5MTjIsIDEvYilcbndlaWJ1bGxTdGQgICAgPSAoYiwgbGFtKSA9PiB7IGNvbnN0IGV0YT0xL2xhbTsgcmV0dXJuIE1hdGguc3FydChldGEqZXRhKihnYW1tYUZuKDErMi9iKS1NYXRoLnBvdyhnYW1tYUZuKDErMS9iKSwyKSkpIH1cbndlaWJ1bGxCMTAgICAgPSAoYiwgbGFtKSA9PiAoMS9sYW0pICogTWF0aC5wb3coLU1hdGgubG9nKDAuOSksIDEvYilcblxuLy98IGVjaG86IGZhbHNlXG4vLyBDb250cm9sc1xudmlld29mIHNoYXBlID0gSW5wdXRzLnJhbmdlKFswLjUsIDVdLCB7XG4gIHZhbHVlOiBmaXhlZFNoYXBlLFxuICBzdGVwOiAwLjAxLFxuICBsYWJlbDogXCJTaGFwZSDOslwiXG59KVxuXG52aWV3b2YgcmF0ZSA9IElucHV0cy5yYW5nZShbMC4wMDAyLCAwLjAwNV0sIHtcbiAgdmFsdWU6IGZpeGVkUmF0ZSxcbiAgc3RlcDogMC4wMDAwMSxcbiAgbGFiZWw6IFwiUmF0ZSDOu1wiXG59KVxuXG52aWV3b2YgcGxvdFR5cGUgPSBJbnB1dHMucmFkaW8oW1wiUERGXCIsIFwiQ0RGXCIsIFwiUHJvYmFiaWxpdHkgcGxvdFwiLCBcIkhhemFyZCByYXRlXCJdLCB7XG4gIHZhbHVlOiBcIlBERlwiLFxuICBsYWJlbDogXCJDaGFydFwiXG59KVxuXG5odG1sYDxwIHN0eWxlPVwiZm9udC1zaXplOjEzcHg7Y29sb3I6IzY2NjttYXJnaW46MnB4IDAgMTJweFwiPlxuICBTY2FsZSDOtyA9IDEvzrsgPSA8c3Ryb25nPiR7KDEvcmF0ZSkudG9GaXhlZCgxKX08L3N0cm9uZz5cbjwvcD5gXG5cbi8vfCBlY2hvOiBmYWxzZVxue1xuICBjb25zdCBzb3J0ZWQgPSBbLi4uZGF0YV0uc29ydCgoYSwgYikgPT4gYSAtIGIpXG4gIGNvbnN0IG4gPSBzb3J0ZWQubGVuZ3RoXG4gIGNvbnN0IGV0YSA9IDEgLyByYXRlXG4gIGNvbnN0IHhtaW4gPSBNYXRoLm1pbiguLi5kYXRhKSAqIDAuODVcbiAgY29uc3QgeG1heCA9IE1hdGgubWF4KC4uLmRhdGEpICogMS4xXG4gIGNvbnN0IHB0cyA9IDMwMFxuICBjb25zdCB4cyA9IEFycmF5LmZyb20oeyBsZW5ndGg6IHB0cyB9LCAoXywgaSkgPT4geG1pbiArICh4bWF4IC0geG1pbikgKiBpIC8gKHB0cyAtIDEpKVxuXG4gIGlmIChwbG90VHlwZSA9PT0gXCJQREZcIikge1xuICAgIGNvbnN0IGJpbnMgPSAxMlxuICAgIGNvbnN0IHcgPSAoeG1heCAtIHhtaW4pIC8gYmluc1xuICAgIGNvbnN0IGNvdW50cyA9IEFycmF5KGJpbnMpLmZpbGwoMClcbiAgICBzb3J0ZWQuZm9yRWFjaCh2ID0+IHtcbiAgICAgIGxldCBiID0gTWF0aC5mbG9vcigodiAtIHhtaW4pIC8gdylcbiAgICAgIGlmIChiID49IGJpbnMpIGIgPSBiaW5zIC0gMVxuICAgICAgaWYgKGIgPj0gMCkgY291bnRzW2JdKytcbiAgICB9KVxuICAgIGNvbnN0IGhpc3REYXRhID0gY291bnRzLm1hcCgoYywgaSkgPT4gKHtcbiAgICAgIHgwOiB4bWluICsgaSAqIHcsXG4gICAgICB4MTogeG1pbiArIChpICsgMSkgKiB3LFxuICAgICAgZGVuc2l0eTogYyAvIChuICogdylcbiAgICB9KSlcbiAgICBjb25zdCBsaW5lRGF0YSA9IHhzLm1hcCh4ID0+ICh7IHgsIHk6IHdlaWJ1bGxQREYoeCwgc2hhcGUsIHJhdGUpIH0pKVxuICAgIHJldHVybiBQbG90LnBsb3Qoe1xuICAgICAgd2lkdGg6IDY4MCwgaGVpZ2h0OiAzMDAsXG4gICAgICB4OiB7IGxhYmVsOiBcIlRpbWVcIiB9LFxuICAgICAgeTogeyBsYWJlbDogXCJEZW5zaXR5XCIgfSxcbiAgICAgIG1hcmtzOiBbXG4gICAgICAgIFBsb3QucmVjdFkoaGlzdERhdGEsIHsgeDE6IFwieDBcIiwgeDI6IFwieDFcIiwgeTogXCJkZW5zaXR5XCIsIGZpbGw6IFwiIzM3OEFERFwiLCBmaWxsT3BhY2l0eTogMC4yNSwgc3Ryb2tlOiBcIiMzNzhBRERcIiwgc3Ryb2tlT3BhY2l0eTogMC41IH0pLFxuICAgICAgICBQbG90LmxpbmUobGluZURhdGEsIHsgeDogXCJ4XCIsIHk6IFwieVwiLCBzdHJva2U6IFwiIzM3OEFERFwiLCBzdHJva2VXaWR0aDogMiB9KSxcbiAgICAgICAgUGxvdC5ydWxlWShbMF0pXG4gICAgICBdXG4gICAgfSlcbiAgfVxuXG4gIGlmIChwbG90VHlwZSA9PT0gXCJDREZcIikge1xuICAgIGNvbnN0IGVtcERhdGEgPSBzb3J0ZWQubWFwKCh4LCBpKSA9PiAoeyB4LCB5OiAoaSArIDAuMykgLyAobiArIDAuNCkgfSkpXG4gICAgY29uc3QgbGluZURhdGEgPSB4cy5tYXAoeCA9PiAoeyB4LCB5OiB3ZWlidWxsQ0RGKHgsIHNoYXBlLCByYXRlKSB9KSlcbiAgICByZXR1cm4gUGxvdC5wbG90KHtcbiAgICAgIHdpZHRoOiA2ODAsIGhlaWdodDogMzAwLFxuICAgICAgeDogeyBsYWJlbDogXCJUaW1lXCIgfSxcbiAgICAgIHk6IHsgbGFiZWw6IFwiRih0KVwiLCBkb21haW46IFswLCAxXSB9LFxuICAgICAgbWFya3M6IFtcbiAgICAgICAgUGxvdC5saW5lKGxpbmVEYXRhLCB7IHg6IFwieFwiLCB5OiBcInlcIiwgc3Ryb2tlOiBcIiMzNzhBRERcIiwgc3Ryb2tlV2lkdGg6IDIgfSksXG4gICAgICAgIFBsb3QuZG90KGVtcERhdGEsIHsgeDogXCJ4XCIsIHk6IFwieVwiLCBmaWxsOiBcIiMzNzhBRERcIiwgZmlsbE9wYWNpdHk6IDAuNSwgcjogNSB9KSxcbiAgICAgICAgUGxvdC5ydWxlWShbMF0pXG4gICAgICBdXG4gICAgfSlcbiAgfVxuXG4gIGlmIChwbG90VHlwZSA9PT0gXCJQcm9iYWJpbGl0eSBwbG90XCIpIHtcbiAgICBjb25zdCBlbXBZID0gc29ydGVkLm1hcCgoXywgaSkgPT4gKGkgKyAwLjMpIC8gKG4gKyAwLjQpKVxuICAgIGNvbnN0IHBvaW50RGF0YSA9IHNvcnRlZC5tYXAoKHgsIGkpID0+ICh7XG4gICAgICBsbng6IE1hdGgubG9nKHgpLFxuICAgICAgbG5sbjogTWF0aC5sb2coLU1hdGgubG9nKDEgLSBlbXBZW2ldKSlcbiAgICB9KSlcbiAgICBjb25zdCBmaXRYcyA9IHhzLmZpbHRlcih4ID0+IHggPiAwKVxuICAgIGNvbnN0IGxpbmVEYXRhID0gZml0WHMubWFwKHggPT4gKHtcbiAgICAgIGxueDogTWF0aC5sb2coeCksXG4gICAgICBsbmxuOiBzaGFwZSAqIChNYXRoLmxvZyh4KSAtIE1hdGgubG9nKGV0YSkpXG4gICAgfSkpXG4gICAgcmV0dXJuIFBsb3QucGxvdCh7XG4gICAgICB3aWR0aDogNjgwLCBoZWlnaHQ6IDMwMCxcbiAgICAgIHg6IHsgbGFiZWw6IFwibG4odClcIiB9LFxuICAgICAgeTogeyBsYWJlbDogXCJsbijiiJJsbigx4oiSRikpXCIgfSxcbiAgICAgIG1hcmtzOiBbXG4gICAgICAgIFBsb3QubGluZShsaW5lRGF0YSwgeyB4OiBcImxueFwiLCB5OiBcImxubG5cIiwgc3Ryb2tlOiBcIiMzNzhBRERcIiwgc3Ryb2tlV2lkdGg6IDIgfSksXG4gICAgICAgIFBsb3QuZG90KHBvaW50RGF0YSwgeyB4OiBcImxueFwiLCB5OiBcImxubG5cIiwgZmlsbDogXCIjMzc4QUREXCIsIGZpbGxPcGFjaXR5OiAwLjUsIHI6IDUgfSlcbiAgICAgIF1cbiAgICB9KVxuICB9XG5cbiAgaWYgKHBsb3RUeXBlID09PSBcIkhhemFyZCByYXRlXCIpIHtcbiAgICBjb25zdCBsaW5lRGF0YSA9IHhzLm1hcCh4ID0+ICh7IHgsIHk6IHdlaWJ1bGxIYXooeCwgc2hhcGUsIHJhdGUpIH0pKVxuICAgIHJldHVybiBQbG90LnBsb3Qoe1xuICAgICAgd2lkdGg6IDY4MCwgaGVpZ2h0OiAzMDAsXG4gICAgICB4OiB7IGxhYmVsOiBcIlRpbWVcIiB9LFxuICAgICAgeTogeyBsYWJlbDogXCJoKHQpXCIgfSxcbiAgICAgIG1hcmtzOiBbXG4gICAgICAgIFBsb3QubGluZShsaW5lRGF0YSwgeyB4OiBcInhcIiwgeTogXCJ5XCIsIHN0cm9rZTogXCIjRDg1QTMwXCIsIHN0cm9rZVdpZHRoOiAyIH0pLFxuICAgICAgICBQbG90LnJ1bGVZKFswXSlcbiAgICAgIF1cbiAgICB9KVxuICB9XG59XG5cbi8vfCBlY2hvOiBmYWxzZVxuaHRtbGA8ZGV0YWlscyBzdHlsZT1cIm1hcmdpbi10b3A6MTZweDtmb250LXNpemU6MTNweDtjb2xvcjojNTU1XCI+XG4gIDxzdW1tYXJ5IHN0eWxlPVwiY3Vyc29yOnBvaW50ZXI7Zm9udC13ZWlnaHQ6NTAwXCI+UGFyYW1ldGVyIHJlZmVyZW5jZTwvc3VtbWFyeT5cbiAgPHRhYmxlIHN0eWxlPVwibWFyZ2luLXRvcDo4cHg7Ym9yZGVyLWNvbGxhcHNlOmNvbGxhcHNlO3dpZHRoOjEwMCU7Zm9udC1zaXplOjEzcHhcIj5cbiAgICA8dHIgc3R5bGU9XCJib3JkZXItYm90dG9tOjFweCBzb2xpZCAjZGRkXCI+XG4gICAgICA8dGggc3R5bGU9XCJ0ZXh0LWFsaWduOmxlZnQ7cGFkZGluZzo0cHggOHB4XCI+PC90aD5cbiAgICAgIDx0aCBzdHlsZT1cInBhZGRpbmc6NHB4IDhweFwiPs6yIChzaGFwZSk8L3RoPlxuICAgICAgPHRoIHN0eWxlPVwicGFkZGluZzo0cHggOHB4XCI+zrsgKHJhdGUpPC90aD5cbiAgICA8L3RyPlxuICAgIDx0cj5cbiAgICAgIDx0ZCBzdHlsZT1cInBhZGRpbmc6NHB4IDhweDtjb2xvcjojNjY2XCI+Rml4ZWQ8L3RkPlxuICAgICAgPHRkIHN0eWxlPVwicGFkZGluZzo0cHggOHB4O3RleHQtYWxpZ246Y2VudGVyXCI+PHN0cm9uZz4ke2ZpeGVkU2hhcGV9PC9zdHJvbmc+PC90ZD5cbiAgICAgIDx0ZCBzdHlsZT1cInBhZGRpbmc6NHB4IDhweDt0ZXh0LWFsaWduOmNlbnRlclwiPjxzdHJvbmc+JHtmaXhlZFJhdGV9PC9zdHJvbmc+PC90ZD5cbiAgICA8L3RyPlxuICAgIDx0ciBzdHlsZT1cImJhY2tncm91bmQ6I2Y5ZjlmOVwiPlxuICAgICAgPHRkIHN0eWxlPVwicGFkZGluZzo0cHggOHB4O2NvbG9yOiM2NjZcIj5NTEUgZml0PC90ZD5cbiAgICAgIDx0ZCBzdHlsZT1cInBhZGRpbmc6NHB4IDhweDt0ZXh0LWFsaWduOmNlbnRlclwiPiR7bWxlRml0LnNoYXBlLnRvRml4ZWQoNCl9PC90ZD5cbiAgICAgIDx0ZCBzdHlsZT1cInBhZGRpbmc6NHB4IDhweDt0ZXh0LWFsaWduOmNlbnRlclwiPiR7bWxlRml0LnJhdGUudG9GaXhlZCg2KX08L3RkPlxuICAgIDwvdHI+XG4gICAgPHRyPlxuICAgICAgPHRkIHN0eWxlPVwicGFkZGluZzo0cHggOHB4O2NvbG9yOiM2NjZcIj5DdXJyZW50PC90ZD5cbiAgICAgIDx0ZCBzdHlsZT1cInBhZGRpbmc6NHB4IDhweDt0ZXh0LWFsaWduOmNlbnRlclwiPiR7c2hhcGUudG9GaXhlZCg0KX08L3RkPlxuICAgICAgPHRkIHN0eWxlPVwicGFkZGluZzo0cHggOHB4O3RleHQtYWxpZ246Y2VudGVyXCI+JHtyYXRlLnRvRml4ZWQoNil9PC90ZD5cbiAgICA8L3RyPlxuICA8L3RhYmxlPlxuICA8cCBzdHlsZT1cIm1hcmdpbjo4cHggMCAwXCI+XG4gICAgJHtzaGFwZSA+IDEgPyBcIs6yID4gMSDihpIgaW5jcmVhc2luZyBmYWlsdXJlIHJhdGUgKHdlYXItb3V0KVwiIDpcbiAgICAgIHNoYXBlIDwgMSA/IFwizrIgPCAxIOKGkiBkZWNyZWFzaW5nIGZhaWx1cmUgcmF0ZSAoaW5mYW50IG1vcnRhbGl0eSlcIiA6XG4gICAgICBcIs6yIOKJiCAxIOKGkiBjb25zdGFudCBmYWlsdXJlIHJhdGUgKHJhbmRvbSBmYWlsdXJlcylcIn1cbiAgPC9wPlxuPC9kZXRhaWxzPmBcblxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdzaGFwZScpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdyYXRlJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3Bsb3RUeXBlJykifV19
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../..";
+window._ojs.paths.runtimeToRoot = "../../..";
+window._ojs.paths.docToRoot = "";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
