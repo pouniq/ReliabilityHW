@@ -140,22 +140,47 @@ window.Quarto = {
 </header>
 
 
-<p>روش عددی در مثال ۶.۶</p>
+<section id="روش-عددی-در-مثال-۶.۶" class="level2">
+<h2 class="anchored" data-anchor-id="روش-عددی-در-مثال-۶.۶">روش عددی در مثال ۶.۶</h2>
 <p><a href="Question.png" class="lightbox" data-gallery="my-group"><img src="Question.png" class="img-fluid"></a></p>
 <p>اول از همه ما یک سری داده داریم که در جدول زیر مشخص شده است.</p>
 <p><a href="Table.png" class="lightbox" data-gallery="my-group"><img src="Table.png" class="img-fluid"></a></p>
 <div class="cell" dir="ltr">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), <span class="fu">c</span>(<span class="dv">25</span>,<span class="dv">28</span>,<span class="dv">29</span>,<span class="dv">44</span>,<span class="dv">57</span>,<span class="dv">58</span>,<span class="dv">63</span>,<span class="dv">64</span>,<span class="dv">64</span>, <span class="dv">76</span>,<span class="dv">87</span>,<span class="dv">93</span>,<span class="dv">111</span>,<span class="dv">126</span>,<span class="dv">136</span>,<span class="dv">139</span>,<span class="dv">157</span>,<span class="dv">168</span>,<span class="dv">189</span>,<span class="dv">212</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), <span class="fu">c</span>(<span class="dv">25</span>,<span class="dv">28</span>,<span class="dv">29</span>,<span class="dv">44</span>,<span class="dv">57</span>,<span class="dv">58</span>,<span class="dv">63</span>,<span class="dv">64</span>,<span class="dv">64</span>, <span class="dv">76</span>,<span class="dv">87</span>,<span class="dv">93</span>,<span class="dv">111</span>,<span class="dv">126</span>,<span class="dv">136</span>,<span class="dv">139</span>,<span class="dv">157</span>,<span class="dv">168</span>,<span class="dv">189</span>,<span class="dv">212</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      [,1] [,2]
+ [1,]    1   25
+ [2,]    2   28
+ [3,]    3   29
+ [4,]    4   44
+ [5,]    5   57
+ [6,]    6   58
+ [7,]    7   63
+ [8,]    8   64
+ [9,]    9   64
+[10,]   10   76
+[11,]   11   87
+[12,]   12   93
+[13,]   13  111
+[14,]   14  126
+[15,]   15  136
+[16,]   16  139
+[17,]   17  157
+[18,]   18  168
+[19,]   19  189
+[20,]   20  212</code></pre>
+</div>
 </div>
 <div class="cell" dir="ltr">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> data[,<span class="dv">2</span>]</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> data[,<span class="dv">2</span>]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]  25  28  29  44  57  58  63  64  64  76  87  93 111 126 136 139 157 168 189
 [20] 212</code></pre>
 </div>
 </div>
-<p>فرمول وایبل نیز به این صورت است: <span class="math display">\[
+<p>فرمول <strong>وایبل</strong> نیز به این صورت است: <span class="math display">\[
 f(t,\lambda, \beta) = \beta\lambda^{\beta}t^{\beta-1}e^{-(\lambda t)^\beta}
 \]</span></p>
 <p>که likelihood آن هم به این شکل می شود</p>
@@ -171,30 +196,49 @@ l(\lambda , \beta) =  [nln(\beta) + n\beta ln(\lambda) + (\beta - 1) \sum_{i=1}^
 <p>تابع را در دستور optim() قرار می دهیم</p>
 <p>تابع بالا در R به صورت زیر قابل تعریف شدن است:</p>
 <div class="cell" dir="ltr">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(params, y){</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  lambda <span class="ot">&lt;-</span> params[<span class="dv">1</span>]</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  beta <span class="ot">&lt;-</span> params[<span class="dv">2</span>]</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  n<span class="sc">*</span><span class="fu">log</span>(beta) <span class="sc">+</span> n<span class="sc">*</span>beta<span class="sc">*</span><span class="fu">log</span>(lambda) <span class="sc">+</span> (beta <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">*</span><span class="fu">sum</span>(<span class="fu">log</span>(y)) <span class="sc">-</span> </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>((lambda <span class="sc">*</span> y)<span class="sc">^</span>beta)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(params, y){</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  lambda <span class="ot">&lt;-</span> params[<span class="dv">1</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  beta <span class="ot">&lt;-</span> params[<span class="dv">2</span>]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  n<span class="sc">*</span><span class="fu">log</span>(beta) <span class="sc">+</span> n<span class="sc">*</span>beta<span class="sc">*</span><span class="fu">log</span>(lambda) <span class="sc">+</span> (beta <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">*</span><span class="fu">sum</span>(<span class="fu">log</span>(y)) <span class="sc">-</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>((lambda <span class="sc">*</span> y)<span class="sc">^</span>beta)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>بعد از تعریف تابع باید این تابع را به روش های عددی ماکزیمم کنیم:</p>
 <div class="cell" dir="ltr">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>initialval <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">optim</span>(initialval, f,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> y,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">control =</span> <span class="fu">list</span>(<span class="at">fnscale =</span> <span class="sc">-</span><span class="dv">1</span>),</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">method =</span> <span class="st">"BFGS"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>initialval <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">optim</span>(initialval, f,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> y,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">control =</span> <span class="fu">list</span>(<span class="at">fnscale =</span> <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">method =</span> <span class="st">"BFGS"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>output</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$par
+[1] 0.009184599 1.878197671
+
+$value
+[1] -106.5273
+
+$counts
+function gradient 
+     118       23 
+
+$convergence
+[1] 0
+
+$message
+NULL
+
+$hessian
+             [,1]       [,2]
+[1,] -848011.5291 -947.21582
+[2,]    -947.2158  -10.22236</code></pre>
 </div>
-<p>یا اگر طبق فرمول 6.12 پیش برویم که برابر است با :</p>
-<p><span class="math display">\[
-\lambda = [\frac{1}{n} \sum_{i=1}^{n} t_i^{\beta}]^{-\frac{1}{\beta}}
-\]</span></p>
+</div>
 <p>اول از همه یک نقطه شروع برای پارامتر ها در نظر می گیریم که در initialvalue آنها را قرار می دهیم که برای هر دو پارامتر 1, 1 در نظر گرفته شد</p>
 <p>تابع optim() را فراخوانی می کنیم و اول از همه مقادیر اولیه را در آن قرار می دهیم.</p>
 <p>بعد از آن تابع f که میخواهیم بهینه سازی کنیم را در تابع قرار می دهیم</p>
@@ -205,15 +249,15 @@ l(\lambda , \beta) =  [nln(\beta) + n\beta ln(\lambda) + (\beta - 1) \sum_{i=1}^
 <p><span class="math display">\[
 \lambda = [\frac{1}{n} \sum_{i=1}^{n} t_i^{\beta}]^{-\frac{1}{\beta}}
 \]</span></p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lm <span class="ot">&lt;-</span> <span class="cf">function</span>(y,betaP){</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  lambda <span class="ot">&lt;-</span> ( (<span class="dv">1</span><span class="sc">/</span>n) <span class="sc">*</span> <span class="fu">sum</span>(y<span class="sc">^</span>betaP) )<span class="sc">^</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span>betaP)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  lambda</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell" dir="ltr">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>lm <span class="ot">&lt;-</span> <span class="cf">function</span>(y,betaP){</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  lambda <span class="ot">&lt;-</span> ( (<span class="dv">1</span><span class="sc">/</span>n) <span class="sc">*</span> <span class="fu">sum</span>(y<span class="sc">^</span>betaP) )<span class="sc">^</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span>betaP)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  lambda</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y,output<span class="sc">$</span>par[<span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell" dir="ltr">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y,output<span class="sc">$</span>par[<span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.0091779</code></pre>
 </div>
@@ -258,6 +302,7 @@ censored <- c(1,1,0,0,0,0,0,0,0,0,1,1)
 
 
 -->
+</section>
 
 </main>
 <!-- /main column -->
